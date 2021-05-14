@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 
+import SignInPage from './pages/sign-in/sign-in-page'
+import ChannelPage from './pages/channel/channel-page'
+
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from './firebase/firebase.utils'
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [user, loading] = useAuthState(auth)
+
+  const [isLoading, setIsLoading] = useState(loading)
+  const [userAuth, setUserAuth] = useState(user)
+
+  useEffect(() => setUserAuth(user) , [user])
+  useEffect(() => setIsLoading(loading), [loading])
+  
+  if (isLoading) {
+    return (
+      <div>
+        ... is Loading
+      </div>
+    )
+  }
+
+  if (userAuth) {
+    return (
+      <div>
+        <ChannelPage userAuth={userAuth}/>
+      </div>
+    )
+  }
+
+  if (!userAuth) {
+    return (
+      <div>
+        <SignInPage/>
+      </div>
+    );
+  }
 }
 
 export default App;
