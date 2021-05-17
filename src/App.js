@@ -3,6 +3,7 @@ import './App.css';
 
 import Header from './components/header/header.component'
 import SignInPage from './pages/sign-in/sign-in-page'
+import ChannelPage from './pages/channel/channel-page'
 
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from './firebase/firebase.utils'
@@ -17,7 +18,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [user, setUser] = useState(userAuth)
   const [darkMode, setDarkMode] = useState(true)
-
+  
   useEffect(() => setUser(userAuth), [userAuth])
   useEffect(() => setIsLoading(loading), [loading])
 
@@ -36,8 +37,14 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Paper>
-        <Header darkMode={darkMode} user={user} setDarkMode={setDarkMode}/>
-        <SignInPage darkMode={darkMode} isLoading={isLoading}/>
+        <Header darkMode={darkMode} user={user} setDarkMode={setDarkMode} />
+        {
+          userAuth ? (
+            <ChannelPage darkMode={darkMode} user={user}/>
+          ) : (
+            <SignInPage darkMode={darkMode} isLoading={isLoading}/>
+          )
+        }
       </Paper>
     </ThemeProvider>
   )

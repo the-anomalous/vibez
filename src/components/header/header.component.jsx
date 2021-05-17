@@ -17,13 +17,16 @@ const Header = ({ user, darkMode, setDarkMode}) => {
     <AppBar position='fixed' style={{ height: 76, backgroundColor: darkMode ? null : '#fff'}}>
       <Toolbar style={{ justifyContent: 'space-between' }}>
         {
-          darkMode ? <DarkModeLogo style={{ width: 180 }} /> : <LightModeLogo style={{ width: 180 }} />
+          darkMode ? <DarkModeLogo style={{ width: 130 }} /> : <LightModeLogo style={{ width: 120 }} />
         }
 
-        <Box>
+        <Box
+          display='flex'
+          flexDirection='row'
+        >
           {
             user ? (
-              <Button onClick={signOut} variant='outlined' color='secondary' style={{marginRight:'15px'}}>
+              <Button onClick={signOut} size='small' color='secondary' style={{marginRight:'5px'}}>
                 <Typography variant="subtitle2" style={{ fontFamily: 'koho', fontWeight:'bold' }}>Sign Out</Typography>
               </Button> ) : null
           }

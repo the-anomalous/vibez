@@ -1,21 +1,27 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
-import { signOut } from '../../firebase/firebase.utils'
 import { firestore, createMessageDocument } from '../../firebase/firebase.utils'
 
-import { formatRelative } from 'date-fns';
+import Message from '../../components/message/message.component'
 
-import { ReactComponent as Logo } from '../../assets/logo.svg';
+import PageContainer from '../../material-UI/page-container.styles'
+import Container from '@material-ui/core/Container'
+import Paper from '@material-ui/core/Paper'
+import InputBase from '@material-ui/core/InputBase'
+import Button from '@material-ui/core/Button'
+import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const ChannelPage = ({userAuth}) => {
+const ChannelPage = ({ user, darkMode }) => {
   const [messages, setMessages] = useState([])
-  const ref = useRef({
-    text: ''
-  })
-    
+  const textRef = useRef({ text: '' })
+  const inputRef = useRef()
+  const bottomRef = useRef()
+
   useEffect(() => {
     const colRef = firestore.collection('messages');
-    
+
     const unsubscribe = colRef
       .orderBy('createdAt')
       .limit(100)
@@ -28,52 +34,81 @@ const ChannelPage = ({userAuth}) => {
       })
     return unsubscribe
   }, [])
-  
+
   const getMessage = event => {
     const text = event.target.value.trim()
     if (text.length > 0) {
-      ref.current.text = text
+      textRef.current.text = text
     }
   }
-  
-  const formatDate = date => {
-    let formattedDate = '';
-    if (date) {
-      
-      formattedDate = formatRelative(date, new Date());
-      
-      formattedDate =
-        formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
-    }
-    return formattedDate;
-  };
-  
+
   const handleSubmit = () => {
-    const text = ref.current.text.trim();
+    const text = textRef.current.text.trim();
     if (text.length > 0) {
-      createMessageDocument(userAuth, text);
+      createMessageDocument(user, text);
     }
-    ref.current.text = '';
+    textRef.current.text = '';
+    inputRef.current.firstChild.value = ''
+    bottomRef.current.lastChild.scrollIntoView({ behavior: 'smooth' });
   }
-  
+
   return (
-    <div>
-      <Logo/>
-      <button onClick={signOut}>Sign Out</button>
-      <ul>
-        {
-          messages.map(message => (
-            <li key={message.id}>
-              <img src={message.photoURL} width = '45px' alt="avatar" />            
-              {message.text}
-              <span>{formatDate(new Date(message.createdAt.seconds * 1000))}</span>
-            </li>
-          ))
-        }
-      </ul>
-      <input type="text" placeholder='Type Message' onChange={getMessage} />
-      <button onClick={handleSubmit} type="submit">Send Message</button>
-    </div>
+    <PageContainer
+      style={darkMode ? { backgroundColor: '#24282A' } : null} maxWidth='false'>
+
+      <Container
+        disableGutters={true}
+        maxWidth='md'
+        style={{ height: '78%' }}
+      >
+
+        <Box
+          height='100%'
+          ref={bottomRef}
+          style={{ overflowY: 'auto' }}
+        >
+          <Typography
+            style={{ margin: '15px 0', paddingBottom: '15px', borderBottom: '1px solid white' }} variant='h6'
+            component='div'
+            align='center'>
+            This is the beginning of your Chat
+                </Typography>
+
+          {
+            messages.length ? (
+              messages.map(message => {
+                let { id, ...otherProps } = message;
+                return (
+                  <Message key={id} {...otherProps} />
+                )
+              })) : (
+              <CircularProgress color='secondary' style={{
+                position: 'absolute',
+                top: '40%',
+                left: '50%'
+              }} />
+            )
+          }
+        </Box>
+
+        <Box
+          width='100%'
+        >
+          <Paper style={{ display: 'flex', borderRadius: '30px' }}>
+            <InputBase
+              ref={inputRef}
+              onChange={getMessage}
+              placeholder='Type your message here...'
+              style={{ padding: '8px 20px', width: '100%' }} />
+            <Button
+              onClick={handleSubmit}
+              style={{ marginRight: '10px', borderRadius: '40px' }}>
+              Send
+                </Button>
+          </Paper>
+        </Box>
+      </Container>
+    </PageContainer>
   )
 }
 
