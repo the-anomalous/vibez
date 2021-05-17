@@ -20,6 +20,7 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
+firebase.auth().useDeviceLanguage();
 googleProvider.setCustomParameters({
   prompt: 'select_account'
 })
@@ -40,15 +41,18 @@ export const signOut = async () => {
   }
 }
 
-export const getTextMessages = async () => {
-  const colRef = firestore.collection('messages')
+export const createMessageDocument = async (userAuth, text) => {
+  const colRef = firestore.collection('messages');
+  const { uid, displayName, photoURL } = userAuth;
+  const createdAt = new Date();
 
-  try {
-    const message = colRef.orderBy('createdAt').limit(50)
-    console.log(message.docs());
-  } catch ({message}) {
-    console.log(message)
-  }
+  await colRef.add({
+    createdAt: createdAt,
+    uid,
+    displayName,
+    photoURL,
+    text
+  })
 }
 
 export default firebase
