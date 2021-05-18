@@ -25,7 +25,7 @@ const SignInPage = ({ darkMode, isLoading }) => {
         height='90%'
       >
         <Paper align='center' style={{
-          height: '220px', boxShadow: '0px 2px 20px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)'
+          height: '260px', boxShadow: '0px 2px 20px -1px rgb(0 0 0 / 10%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)', backgroundColor: !darkMode && 'rgba(0,0,0,.06)'
         }}>
           <Box
             display='flex'
@@ -42,7 +42,7 @@ const SignInPage = ({ darkMode, isLoading }) => {
               flexDirection='column'
               height='100px'
             >
-              <Typography style={{fontFamily: 'koho'}} variant='h3' component='h2'>Welcome to Vibez</Typography>
+              <Typography style={{fontFamily: 'koho', margin:'20px 0'}} variant='h4' component='h2'>Welcome to Vibez</Typography>
               <Typography variant='subtitle1'>Simplest way to chat with people all around the world</Typography>
             </Box>
             
@@ -50,14 +50,13 @@ const SignInPage = ({ darkMode, isLoading }) => {
               isLoading ? (
                 <CircularProgress color='secondary'/>
              ) : (
-              <Button size='large' onClick={signInWithGoogle} variant="contained" color='secondary' startIcon={<GoogleIcon/>}>
+              <Button size='small' onClick={signInWithGoogle} variant="contained" color='secondary' startIcon={<GoogleIcon/>} style={{padding:'14px 18px'}}>
               Sign In With Google
             </Button>
              )
             }
             
           </Box>
-
         </Paper>
       </Box>
       

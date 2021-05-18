@@ -11,7 +11,6 @@ import { auth } from './firebase/firebase.utils'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 
-
 function App() {
   const [userAuth, loading] = useAuthState(auth)
 
@@ -30,7 +29,8 @@ function App() {
       },
       secondary: {
         main: '#d21055'
-      }
+      },
+      contrastThreshold: 1
     }
   })
   

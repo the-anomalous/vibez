@@ -17,8 +17,11 @@ const Message = ({ createdAt, photoURL, text, displayName }) => {
     <Box
       display='flex'
       flexDirection='row'
-      margin='30px 5px'
-      style={{ zIndex: '-1'}}
+      margin='10px 0'
+      padding='15px 5px'
+      borderRadius='4px'
+      style={{ zIndex: '-1' }}
+      className='message-box'
     >
       <Box
         marginRight='10px'
@@ -32,8 +35,8 @@ const Message = ({ createdAt, photoURL, text, displayName }) => {
         justifyContent='space-between'
       >
         <Box marginBottom='5px'>
-          <span style={{ color: '#d21055'}}>{formattedName}</span>
-          {/* {formatDate(new Date(createdAt.seconds * 1000))} */}
+          <span style={{ color: '#d21055', display:'inline-block', fontWeight:'600' }}>{formattedName}</span>
+          <span style={{ fontSize: '13px', marginLeft: '10px', display: 'inline-block'}}>{formatDate(new Date(createdAt.seconds * 1000))}</span>
         </Box>
         <Box
           style={{ wordBreak:'break-word'}}

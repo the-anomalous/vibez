@@ -15,6 +15,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const ChannelPage = ({ user, darkMode }) => {
   const [messages, setMessages] = useState([])
+  const [noMessages, setNoMessages] = useState(false)
   const textRef = useRef({ text: '' })
   const inputRef = useRef()
   const bottomRef = useRef()
@@ -26,6 +27,11 @@ const ChannelPage = ({ user, darkMode }) => {
       .orderBy('createdAt')
       .limit(100)
       .onSnapshot(snapshot => {
+        if (snapshot.docs.length === 0) {
+          setNoMessages(true)
+        } else {
+          setNoMessages(false)
+        }
         const data = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
@@ -34,6 +40,10 @@ const ChannelPage = ({ user, darkMode }) => {
       })
     return unsubscribe
   }, [])
+
+  useEffect(() => {
+    bottomRef.current.lastChild.scrollIntoView({ behavior: 'smooth' });
+  }, [messages])
 
   const getMessage = event => {
     const text = event.target.value.trim()
@@ -49,7 +59,6 @@ const ChannelPage = ({ user, darkMode }) => {
     }
     textRef.current.text = '';
     inputRef.current.firstChild.value = ''
-    bottomRef.current.lastChild.scrollIntoView({ behavior: 'smooth' });
   }
 
   return (
@@ -59,7 +68,7 @@ const ChannelPage = ({ user, darkMode }) => {
       <Container
         disableGutters={true}
         maxWidth='md'
-        style={{ height: '78%' }}
+        style={{ height: '78%', color: !darkMode && 'black' }}
       >
 
         <Box
@@ -68,43 +77,63 @@ const ChannelPage = ({ user, darkMode }) => {
           style={{ overflowY: 'auto' }}
         >
           <Typography
-            style={{ margin: '15px 0', paddingBottom: '15px', borderBottom: '1px solid white' }} variant='h6'
+            style={{ margin: '20px 0', paddingBottom: '15px', borderBottom: '1px solid white', borderColor: !darkMode && 'black' }} variant='h6'
             component='div'
             align='center'>
             This is the beginning of your Chat
-                </Typography>
-
-          {
-            messages.length ? (
-              messages.map(message => {
-                let { id, ...otherProps } = message;
-                return (
-                  <Message key={id} {...otherProps} />
+          </Typography>
+          <Box>
+            {
+              !noMessages ? (
+                messages.length ? (
+                  messages.map(message => {
+                    let { id, ...otherProps } = message;
+                    return (
+                      <Message key={id} {...otherProps} />
+                    )
+                  })) : (
+                  <Box
+                    margin='155px auto'
+                    display='flex'
+                    flexDirection='column'
+                    alignItems='center'
+                  >
+                    <CircularProgress color='secondary' />
+                    <span style={{ display: 'inline-block', margin: '10px 0' }}>Fetching Messages...</span>
+                  </Box>
                 )
-              })) : (
-              <CircularProgress color='secondary' style={{
-                position: 'absolute',
-                top: '40%',
-                left: '50%'
-              }} />
-            )
-          }
+              ) : (
+                  <Box
+                    textAlign='center'
+                    width='100%'
+                    margin='20px 0'
+                  >
+                    <span>Start the Chat</span>
+                  </Box>
+              )
+            }
+          </Box>
         </Box>
 
         <Box
           width='100%'
         >
-          <Paper style={{ display: 'flex', borderRadius: '30px' }}>
+          <Paper style={{ display: 'flex', borderRadius: '30px', marginBottom: '10px', backgroundColor: '#7b696920' }}>
             <InputBase
               ref={inputRef}
               onChange={getMessage}
+              onKeyUp={event => {
+                if (event.keyCode === 13) {
+                  handleSubmit()
+                }
+              }}
               placeholder='Type your message here...'
-              style={{ padding: '8px 20px', width: '100%' }} />
+              style={{ padding: '5px 20px', width: '100%' }} />
             <Button
               onClick={handleSubmit}
-              style={{ marginRight: '10px', borderRadius: '40px' }}>
+              style={{ marginRight: '10px', borderRadius: '40px', color: !darkMode && 'black' }}>
               Send
-                </Button>
+            </Button>
           </Paper>
         </Box>
       </Container>
