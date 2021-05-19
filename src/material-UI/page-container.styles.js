@@ -3,8 +3,8 @@ import Container from '@material-ui/core/Container'
 
 const PageContainer = withStyles({
   root: {
-    height: '100vh',
-    overflow: 'hidden'
+    marginTop: '76px',
+    height: '86vh'
   }
 })(Container)
 
