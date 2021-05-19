@@ -3,9 +3,7 @@ import Container from '@material-ui/core/Container'
 
 const PageContainer = withStyles({
   root: {
-    position: 'fixed',
-    top: 76,
-    height: '100vh'
+    height: '87vh'
   }
 })(Container)
 
