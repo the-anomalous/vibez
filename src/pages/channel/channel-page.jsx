@@ -82,7 +82,6 @@ const ChannelPage = ({ user, darkMode }) => {
             align='center'>
             This is the beginning of your Chat
           </Typography>
-          <Box>
             {
               !noMessages ? (
                 messages.length ? (
@@ -112,13 +111,13 @@ const ChannelPage = ({ user, darkMode }) => {
                   </Box>
               )
             }
-          </Box>
         </Box>
 
         <Box
           width='100%'
+          marginBottom= '10px'
         >
-          <Paper style={{ display: 'flex', borderRadius: '30px', marginBottom: '10px', backgroundColor: '#7b696920' }}>
+          <Paper style={{ display: 'flex', borderRadius: '30px', backgroundColor: '#7b696920' }}>
             <InputBase
               ref={inputRef}
               onChange={getMessage}
