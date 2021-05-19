@@ -1,6 +1,7 @@
 {
   "short_name": "Vibez",
   "name": "Vibez - Live Chat",
+  "description": "Chat with people all around the world",
   "icons": [
     {
       "src": "favicon.ico",
