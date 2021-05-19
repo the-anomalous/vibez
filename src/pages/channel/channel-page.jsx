@@ -68,7 +68,7 @@ const ChannelPage = ({ user, darkMode }) => {
       <Container
         disableGutters={true}
         maxWidth='md'
-        style={{ height: '84%',marginTop:'76px', color: !darkMode && 'black' }}
+        style={{ height: '87%', marginTop:'76px', paddingBottom: '20px', color: !darkMode && 'black' }}
       >
 
         <Box
