@@ -74,7 +74,7 @@ const ChannelPage = ({ user, darkMode }) => {
         <Box
           height='100%'
           ref={bottomRef}
-          style={{ overflowY: 'auto' }}
+          style={{ overflowY: 'auto', paddingTop: '76px' }}
         >
           <Typography
             style={{ margin: '20px 0', paddingBottom: '15px', borderBottom: '1px solid white', borderColor: !darkMode && 'black' }} variant='h6'
@@ -115,7 +115,7 @@ const ChannelPage = ({ user, darkMode }) => {
 
         <Box
           width='100%'
-          marginBottom= '10px'
+          marginBottom='10px'
         >
           <Paper style={{ display: 'flex', borderRadius: '30px', backgroundColor: '#7b696920' }}>
             <InputBase
