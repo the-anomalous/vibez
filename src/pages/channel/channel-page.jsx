@@ -47,9 +47,7 @@ const ChannelPage = ({ user, darkMode }) => {
 
   const getMessage = event => {
     const text = event.target.value.trim()
-    if (text.length > 0) {
-      textRef.current.text = text
-    }
+    textRef.current.text = text
   }
 
   const handleSubmit = () => {
@@ -122,9 +120,13 @@ const ChannelPage = ({ user, darkMode }) => {
               rowsMax={2}
               onChange={getMessage}
               onKeyUp={event => {
+                if (event.code === "Enter") {
+                  handleSubmit()
+                }
                 if (event.keyCode === 13) {
                   handleSubmit()
                 }
+              }}
               }}
               placeholder='Type your message here...'
               style={{ padding: '9px 20px', width: '100%', backgroundColor: 'transparent', minHeight:'42px', fontSize:'16px', color: darkMode && 'white', border:'none', outline:'none' }} />
