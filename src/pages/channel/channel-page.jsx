@@ -127,7 +127,6 @@ const ChannelPage = ({ user, darkMode }) => {
                   handleSubmit()
                 }
               }}
-              }}
               placeholder='Type your message here...'
               style={{ padding: '9px 20px', width: '100%', backgroundColor: 'transparent', minHeight:'42px', fontSize:'16px', color: darkMode && 'white', border:'none', outline:'none' }} />
             <Button
