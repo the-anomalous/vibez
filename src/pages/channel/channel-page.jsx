@@ -7,7 +7,7 @@ import Message from '../../components/message/message.component'
 import PageContainer from '../../material-UI/page-container.styles'
 import Container from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
-import InputBase from '@material-ui/core/InputBase'
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -117,9 +117,9 @@ const ChannelPage = ({ user, darkMode }) => {
           width='100%'
           marginBottom='10px'
         >
-          <Paper style={{ display: 'flex', borderRadius: '30px', backgroundColor: '#7b696920' }}>
-            <InputBase
-              ref={inputRef}
+          <Paper ref={inputRef} style={{ display: 'flex', borderRadius: '30px', backgroundColor: '#7b696920' }}>
+            <TextareaAutosize
+              rowsMax={2}
               onChange={getMessage}
               onKeyUp={event => {
                 if (event.keyCode === 13) {
@@ -127,7 +127,7 @@ const ChannelPage = ({ user, darkMode }) => {
                 }
               }}
               placeholder='Type your message here...'
-              style={{ padding: '5px 20px', width: '100%' }} />
+              style={{ padding: '9px 20px', width: '100%', backgroundColor: 'transparent', minHeight:'42px', fontSize:'16px', color: darkMode && 'white', border:'none', outline:'none' }} />
             <Button
               onClick={handleSubmit}
               style={{ marginRight: '10px', borderRadius: '40px', color: !darkMode && 'black' }}>
